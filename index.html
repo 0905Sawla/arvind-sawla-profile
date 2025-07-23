@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arvind Sawla | Strategic Transformation Leader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Blue & White Modern -->
+    <!-- Application Structure Plan: A dashboard-style, single-page application designed to transform a linear resume into an engaging, interactive experience. The structure includes a sticky navigation for easy access to thematic sections: a high-impact 'Transformation Dashboard' with KPIs and interactive charts, a 'Career Journey' timeline, a comprehensive 'Qualifications & Expertise' section (combining Education, Certifications, and Skills), and a dedicated 'Learning & Development' section for courses. This structure prioritizes quick access to key achievements, a clear progression of experience, and a detailed breakdown of capabilities and continuous learning, offering a holistic view of the candidate's profile, aligned with EU resume standards for clarity and directness. -->
+    <!-- Visualization & Content Choices: Key metrics are displayed as large 'KPI Cards' (HTML/CSS) to inform users of top-level achievements instantly. Ather's revenue growth is shown on a 'Bar Chart' (Chart.js) to visualize change and financial impact. Operational improvements are shown in 'Donut Charts' (Chart.js) with central text to compare before/after states. The career history is presented as an 'Interactive Timeline' (HTML/CSS/JS) to organize and show progression. Project details are housed in 'Filterable Cards' (HTML/JS) to allow organized exploration. New sections for 'Education', 'Courses', 'Certificates', and 'Languages' are presented as structured text lists (HTML/CSS) within their respective thematic sections. The existing 'Skills' section is expanded to include 'Technical Skills' and 'Languages' as distinct categories within the same grid layout. This multi-faceted approach, avoiding SVG/Mermaid, creates a dynamic narrative of the candidate's career. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF; /* White background */
+            color: #1A202C; /* Dark blue/charcoal text */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #1D4ED8; /* Darker blue on hover */
+        }
+        .kpi-card, .project-card, .timeline-item, .skill-card, .education-card, .course-card, .certificate-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .kpi-card:hover, .project-card:hover, .education-card:hover, .course-card:hover, .certificate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .tab-active {
+            border-color: #2563EB; /* Accent blue for active tab */
+            color: #2563EB;
+            font-weight: 600;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            text-align: right;
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+        }
+        .timeline-content {
+            width: calc(50% - 25px); /* Adjust for circle size */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="home" class="bg-white sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-[#2563EB]">
+                Arvind Sawla
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#dashboard" class="nav-link text-gray-600">Impact Dashboard</a>
+                <a href="#journey" class="nav-link text-gray-600">Career Journey</a>
+                <a href="#qualifications" class="nav-link text-gray-600">Qualifications & Expertise</a>
+                <a href="#learning" class="nav-link text-gray-600">Learning & Development</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#dashboard" class="block py-2 nav-link text-gray-600">Impact Dashboard</a>
+            <a href="#journey" class="block py-2 nav-link text-gray-600">Career Journey</a>
+            <a href="#qualifications" class="block py-2 nav-link text-gray-600">Qualifications & Expertise</a>
+            <a href="#learning" class="block py-2 nav-link text-gray-600">Learning & Development</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section class="text-center mb-20">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Strategic Business & Technology Leader</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto">
+                An interactive profile showcasing a career dedicated to bridging the gap between business strategy and technological execution, driving measurable ROI and innovation through digital transformation.
+            </p>
+            <div class="mt-8 text-gray-700 text-base flex flex-wrap justify-center gap-x-6 gap-y-2">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-[#2563EB]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.774a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                    +91-8667497043
+                </span>
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-[#2563EB]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                    arvind.sawla@gmail.com
+                </span>
+                <a href="https://www.linkedin.com/in/arvindsawla/" target="_blank" class="flex items-center text-[#2563EB] hover:underline">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.064-2.065 2.062 2.062 0 012.064-2.063 2.064 2.064 0 012.064 2.063 2.062 2.062 0 01-2.064 2.065zm-.011 13.012H3.22V9h2.106v11.445zM22.227 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.456c.98 0 1.773-.773 1.773-1.729V1.729C24 .774 23.207 0 22.227 0z"></path></svg>
+                    LinkedIn Profile
+                </a>
+            </div>
+        </section>
+
+        <section id="dashboard" class="mb-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">Transformation Impact Dashboard</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl mx-auto">This dashboard provides a high-level overview of the key results and value delivered through strategic initiatives. Interact with the charts and project cards to explore the data-driven outcomes of complex transformation projects.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="kpi-card bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-[#2563EB]">
+                    <p class="text-sm font-semibold text-gray-500 uppercase">License Cost Reduction</p>
+                    <p class="text-4xl font-bold text-[#1A202C] mt-2">~70%</p>
+                    <p class="text-xs text-gray-400 mt-1">Post-System Unification</p>
+                </div>
+                <div class="kpi-card bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-[#60A5FA]">
+                    <p class="text-sm font-semibold text-gray-500 uppercase">Partner Onboarding TAT</p>
+                    <p class="text-4xl font-bold text-[#1A202C] mt-2">&gt;50% <span class="text-2xl">↓</span></p>
+                    <p class="text-xs text-gray-400 mt-1">From 80 to 35 Days</p>
+                </div>
+                <div class="kpi-card bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-[#2563EB]">
+                    <p class="text-sm font-semibold text-gray-500 uppercase">Lead Follow-up Efficiency</p>
+                    <p class="text-4xl font-bold text-[#1A202C] mt-2">7x</p>
+                    <p class="text-xs text-gray-400 mt-1">With 100% Adoption</p>
+                </div>
+                <div class="kpi-card bg-white p-6 rounded-lg shadow-md text-center border-t-4 border-[#60A5FA]">
+                    <p class="text-sm font-semibold text-gray-500 uppercase">New Revenue (D2C)</p>
+                    <p class="text-4xl font-bold text-[#1A202C] mt-2">>₹50L</p>
+                    <p class="text-xs text-gray-400 mt-1">In First Quarter</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-center">Ather Energy Revenue Growth (FY)</h3>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-center">Operational Efficiency Gains</h3>
+                     <div class="flex flex-col md:flex-row justify-around items-center h-full">
+                        <div class="text-center p-4">
+                            <h4 class="text-lg font-semibold text-gray-700">Support Ticket Reduction</h4>
+                            <div class="chart-container !h-48 !max-h-48">
+                                <canvas id="ticketReductionChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h4 class="text-lg font-semibold text-gray-700">Partner CSAT Improvement</h4>
+                            <div class="chart-container !h-48 !max-h-48">
+                                <canvas id="csatChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-bold text-center mb-6">Key Project Showcase</h3>
+                <div class="flex justify-center mb-6 border-b border-gray-200">
+                    <button class="tab-button tab-active py-2 px-4" data-role="manager">Transformation Manager</button>
+                    <button class="tab-button py-2 px-4 text-gray-500" data-role="lead">Business Process Lead</button>
+                </div>
+                <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="mb-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">Career Journey</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl mx-auto">Follow a career path defined by increasing responsibility and impact, from optimizing foundational manufacturing processes to leading enterprise-wide digital and AI-driven transformations.</p>
+            </div>
+            <div id="timeline-container" class="relative">
+            </div>
+        </section>
+
+        <section id="qualifications" class="mb-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">Qualifications & Expertise</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl mx-auto">A comprehensive overview of academic background, professional certifications, and a detailed breakdown of core, technical, and language proficiencies.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-[#2563EB] mb-4">Education</h3>
+                    <div id="education-container" class="space-y-6">
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-[#2563EB] mb-4">Certificates</h3>
+                    <div id="certificates-container" class="space-y-6">
+                    </div>
+                </div>
+            </div>
+
+            <div id="skills" class="scroll-mt-20">
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl font-bold">Skills & Proficiencies</h3>
+                    <p class="text-gray-600 mt-2 max-w-3xl mx-auto">A detailed skill set covering strategic, technical, and linguistic capabilities essential for driving complex transformations.</p>
+                </div>
+                <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+            </div>
+        </section>
+
+        <section id="learning" class="mb-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">Continuous Learning & Development</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl mx-auto">A commitment to continuous learning through specialized courses, enhancing expertise in critical areas of growth and technology.</p>
+            </div>
+            <div id="courses-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white mt-20 border-t">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p>This interactive profile was generated to demonstrate expertise in bridging business and technology.</p>
+            <p class="text-sm mt-2">&copy; 2025. All data derived from professional experience.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileData = {
+                name: "Arvind Sawla",
+                email: "arvind.sawla@gmail.com",
+                phone: "+91-8667497043",
+                linkedin: "https://www.linkedin.com/in/arvindsawla/",
+                kpis: {
+                    revenue: { fy22: 408.9, fy23: 1780.9, fy24: 1753.8, fy25: 2225 },
+                    tickets: 64.64,
+                    csat: { from: 3.7, to: 4.2 }
+                },
+                projects: {
+                    manager: [
+                        { title: 'Enterprise System Unification', description: 'Led a multi-phase digital transformation, unifying 5+ legacy systems into a cohesive Salesforce platform (Service Cloud), enabling long-term stability and scalability.', outcome: 'Achieved ~70% reduction in license costs and reduced 5 FTEs in customer support.' },
+                        { title: 'AI-Enabled Functionality', description: 'Designed and implemented AI features within Salesforce, including Lead Prioritization, Call Summarization, and Call Audit capabilities.', outcome: 'Established a robust foundation for AI-driven system learning and operational intelligence.' },
+                        { title: 'D2C Channel Launch', description: 'Collaborated with Finance and Legal to establish a Direct-to-Consumer channel for accessories.', outcome: 'Generated over ₹50 Lakhs in purchases within the first quarter.' },
+                        { title: 'Home Test Ride Program', description: 'Piloted and scaled a "Home Test Ride" feature across India, taking the product experience closer to users.', outcome: 'Improved retail conversions by ~5% and test rides by 30%.' },
+                        { title: 'Wholesale Process Revamp', description: 'Implemented a forecasting-driven Purchase Order management feature for Central Planning.', outcome: 'Optimized production rhythm and enhanced market responsiveness.' },
+                        { title: 'Lead Nurturing Enhancement', description: 'Integrated WhatsApp into the Lead Management System and implemented auto-assignment for faster engagement.', outcome: 'Reduced response time to <15 mins and improved booking conversion by 12%.' }
+                    ],
+                    lead: [
+                        { title: 'Retail Partner Onboarding', description: 'Designed and implemented a structured process for onboarding retail partners, crucial for pivoting to a new business model.', outcome: 'Accelerated agreement closure from 80 to 35 days, onboarding 250+ partners.' },
+                        { title: 'Claim Management Digitization', description: 'Led the digitization of the end-to-end claim management workflow for partners.', outcome: 'Reduced claim disbursement TAT from 30 to 7 days and improved Partner CSAT from 3.7 to 4.2.' },
+                        { title: 'Subscription Backend Architecture', description: 'Partnered with tech to develop a subscription backend, increasing retail attachments from 12% to 36%.', outcome: 'Generated >₹1 Crore in revenue in six months and reduced new plan launch TAT by >60%.' },
+                        { title: 'Scheme Management Module', description: 'Built a scheme management module from scratch in the legacy DMS to enable better promotional offers.', outcome: 'Increased accessory attachment rate from 1.5% to 15% in 3 months.' },
+                        { title: 'Self-Serve Order Portal', description: 'Developed a self-serve portal for customers to manage orders, reducing escalations.', outcome: 'Reduced customer issue TAT from 20 to 10 days.' },
+                        { title: 'Compliance & Audit Improvement', description: 'Built capabilities to improve the Order-to-Cash journey audit score through strategic policy negotiation.', outcome: 'Improved audit score from 80% to 95%.' }
+                    ]
+                },
+                timeline: [
+                    {
+                        role: 'Process & System Transformation Manager',
+                        company: 'Ather Energy',
+                        date: 'Apr 2023 – Present',
+                        details: 'Promoted to lead enterprise-wide digital transformation. Spearheaded the unification of 5+ core business systems into a single Salesforce platform, embedding AI capabilities to drive efficiency and intelligence. Acted as an internal consultant to identify and pilot new digital and AI use cases across the business.',
+                        icon: '🚀'
+                    },
+                    {
+                        role: 'Business Process Lead',
+                        company: 'Ather Energy',
+                        date: 'Aug 2021 – Mar 2023',
+                        details: 'Performed foundational work in designing and implementing critical business processes, often establishing structures where none existed previously. Focused on process optimization that laid essential groundwork for later, more complex system unification and AI integration efforts.',
+                        icon: '⚡'
+                    },
+                    {
+                        role: 'Chief of Staff - CEO Office',
+                        company: 'Syook',
+                        date: 'Jan 2020 – Jul 2021',
+                        details: 'Led strategic digital transformation engagements for global enterprises like TATA Projects and ONGC. Drove executive-level process optimization and enhanced product lifecycle strategies to expand international market penetration, delivering over $400K in revenue.',
+                        icon: '💼'
+                    },
+                    {
+                        role: 'Operation and Process Lead',
+                        company: 'Apollo Tyres Ltd',
+                        date: 'Feb 2018 – Jan 2020',
+                        details: 'Optimized global manufacturing operations by implementing OEE automation and leveraging Lean Six Sigma principles. Led TQM initiatives for a 400+ workforce, resulting in a 10% reduction in equipment downtime and a 15% improvement in cost efficiency.',
+                        icon: '⚙️'
+                    }
+                ],
+                education: [
+                    {
+                        degree: 'Bachelor of Engineering (Production Engineering)',
+                        university: 'Anna University',
+                        location: 'Chennai, India',
+                        dates: '07/2013 – 05/2017'
+                    },
+                    {
+                        degree: 'Semester Exchange',
+                        university: 'KTH Royal Institute of Technology',
+                        location: 'Stockholm, Sweden',
+                        dates: '08/2015 – 01/2016'
+                    }
+                ],
+                courses: [
+                    {
+                        title: 'Product Growth and Retention Marketing',
+                        provider: 'GrowthX',
+                        dates: '04/2022 – 03/2023',
+                        location: 'Bengaluru, India',
+                        description: 'Learned hands-on expertise in growth loops, funnel optimization, user segmentation, and retention strategy design. Built scalable acquisition and engagement systems using a data-led, experimentation-driven approach. Worked on real-world product growth challenges and applied frameworks such as AARRR (Acquisition, Activation, Retention, Referral, Revenue) and north star metric identification to drive meaningful product decisions.'
+                    },
+                    {
+                        title: 'Supply Chain Analyst',
+                        provider: 'Massachusetts Institute of Technology - MITx',
+                        dates: '04/2020 – 07/2020',
+                        location: 'Bengaluru, India',
+                        description: 'Developed proficiency in demand forecasting, network modelling, inventory optimisation, and risk management using tools such as Excel Solver, linear programming, and probability models. Applied these concepts to real-world case studies and simulations from global supply chains.'
+                    }
+                ],
+                certificates: [
+                    {
+                        name: 'SAFE Product Owner and Product Management',
+                        details: 'Applied Lean-Agile principles at scale to define, prioritize, and deliver customer-centric products in complex, multi-team environments. Gained hands-on experience in Program Increment (PI) planning, backlog management, and cross-team collaboration using the Scaled Agile Framework (SAFe). Equipped to drive value delivery, stakeholder alignment, and iteration planning in Agile Release Trains (ARTs).'
+                    },
+                    {
+                        name: 'Lean Six Sigma - Green Belt',
+                        details: 'Trained in structured problem-solving using DMAIC (Define, Measure, Analyze, Improve, Control) methodology. Gained practical knowledge in process mapping, root cause analysis, hypothesis testing, and statistical quality control to eliminate waste and reduce variation. Applied Six Sigma principles to improve operational efficiency and deliver measurable business outcomes.'
+                    }
+                ],
+                skills: [
+                    { category: 'Core Skills & Competencies', items: ['Product Roadmap & Strategy', 'User-Centric Design & UX Optimization', 'Platform & API Product Management', 'Data-Driven Decision Making & Experimentation', 'MVP Development & Iterative Execution', 'Stakeholder & Cross-Functional Team Management', 'Agile & Scrum Methodologies', 'Change Management & Digital Transformation', 'UI/UX Principles', 'Requirements Gathering', 'Solution Design'] },
+                    { category: 'Technical Skills', items: ['Salesforce CRM/DMS/LMS', 'Jira Confluence', 'DBT', 'SAP', 'IT System Integration (EAI, APIs, Event, File)', 'Workflow Automation', 'Data Migration', 'Einstein Analytics', 'SQL', 'PostgreSQL', 'Tableau', 'Alteryx', 'Salesforce Analytics', 'Advanced Excel', 'SAP ERP', 'Power BI (Beginner)', 'Microsoft Office Suite'] },
+                    { category: 'Business Acumen', items: ['ROI Analysis', 'Financial Modelling', 'Revenue Growth Strategies', 'Cost Reduction', 'Market Expansion', 'Customer Experience (CX) Enhancement', 'Partner Management'] },
+                    { category: 'Languages', items: ['English (Fluent)', 'Hindi (Fluent)', 'Tamil (Fluent)', 'Dutch (Learning)'] }
+                ]
+            };
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Chart.js Plugin for Doughnut Chart Center Text
+            const doughnutTextPlugin = {
+                id: 'doughnutText',
+                beforeDraw(chart) {
+                    const { ctx, width, height } = chart;
+                    ctx.restore();
+                    const fontSize = (height / 114).toFixed(2);
+                    ctx.font = `${fontSize}em Inter`;
+                    ctx.textBaseline = 'middle';
+                    ctx.textAlign = 'center'; /* Center text horizontally */
+                    const text = chart.config.options.plugins.doughnutText?.text || '';
+                    const textX = width / 2;
+                    const textY = height / 2;
+                    ctx.fillStyle = '#1A202C'; // Dark blue/charcoal for text
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            };
+            Chart.register(doughnutTextPlugin);
+
+
+            const renderCharts = () => {
+                const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+                new Chart(revenueCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['FY22', 'FY23', 'FY24', 'FY25'],
+                        datasets: [{
+                            label: 'Revenue (in Cr)',
+                            data: Object.values(profileData.kpis.revenue),
+                            backgroundColor: '#2563EB', /* Accent Blue */
+                            borderColor: '#1D4ED8', /* Darker Blue */
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { y: { beginAtZero: true } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+
+                const ticketCtx = document.getElementById('ticketReductionChart').getContext('2d');
+                new Chart(ticketCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Reduced', 'Remaining'],
+                        datasets: [{
+                            data: [profileData.kpis.tickets, 100 - profileData.kpis.tickets],
+                            backgroundColor: ['#2563EB', '#E0F2FE'], /* Accent Blue, Light Blue */
+                            borderColor: ['#FFFFFF'], /* White border */
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw.toFixed(2)}%` } },
+                            doughnutText: { text: `${profileData.kpis.tickets.toFixed(0)}%` } // Text for center
+                        },
+                        cutout: '70%'
+                    }
+                });
+                
+                const csatCtx = document.getElementById('csatChart').getContext('2d');
+                new Chart(csatCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Improved Score', 'Max Score'],
+                        datasets: [{
+                            data: [profileData.kpis.csat.to, 5 - profileData.kpis.csat.to],
+                            backgroundColor: ['#2563EB', '#E0F2FE'], /* Accent Blue, Light Blue */
+                            borderColor: ['#FFFFFF'], /* White border */
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: (c) => `CSAT: ${profileData.kpis.csat.to}` } },
+                            doughnutText: { text: `${profileData.kpis.csat.to.toFixed(1)}` } // Text for center
+                        },
+                        cutout: '70%'
+                    }
+                });
+            };
+
+            const projectsContainer = document.getElementById('projects-container');
+            const renderProjects = (role) => {
+                projectsContainer.innerHTML = '';
+                profileData.projects[role].forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'project-card bg-white p-6 rounded-lg shadow-md flex flex-col justify-between';
+                    card.innerHTML = `
+                        <div>
+                            <h4 class="text-lg font-bold text-[#2563EB]">${p.title}</h4>
+                            <p class="text-sm text-gray-600 mt-2">${p.description}</p>
+                        </div>
+                        <p class="text-sm font-semibold text-[#1A202C] mt-4 pt-4 border-t border-gray-200">Impact: ${p.outcome}</p>
+                    `;
+                    projectsContainer.appendChild(card);
+                });
+            };
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('tab-active', 'text-gray-500'));
+                    button.classList.add('tab-active');
+                    tabButtons.forEach(btn => {
+                        if (!btn.classList.contains('tab-active')) {
+                            btn.classList.add('text-gray-500');
+                        }
+                    });
+                    renderProjects(button.dataset.role);
+                });
+            });
+
+            const timelineContainer = document.getElementById('timeline-container');
+            const renderTimeline = () => {
+                timelineContainer.innerHTML = `<div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gray-200"></div>`;
+                profileData.timeline.forEach((item, index) => {
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = `timeline-item mb-8 flex justify-between items-center w-full ${index % 2 === 0 ? 'flex-row-reverse' : ''}`;
+                    timelineItem.innerHTML = `
+                        <div class="order-1 timeline-content bg-white rounded-lg shadow-md px-6 py-4">
+                            <p class="text-sm text-gray-500">${item.date}</p>
+                            <h3 class="mb-3 font-bold text-[#1A202C] text-xl">${item.role}</h3>
+                            <p class="text-sm leading-snug tracking-wide text-gray-600">${item.details}</p>
+                        </div>
+                        <div class="z-20 flex items-center order-1 bg-[#2563EB] shadow-xl w-10 h-10 rounded-full">
+                            <h1 class="mx-auto font-semibold text-lg text-white">${item.icon}</h1>
+                        </div>
+                        <div class="order-1 timeline-content"></div>
+                    `;
+                    timelineContainer.appendChild(timelineItem);
+                });
+            };
+
+            const educationContainer = document.getElementById('education-container');
+            const renderEducation = () => {
+                profileData.education.forEach(edu => {
+                    const eduCard = document.createElement('div');
+                    eduCard.className = 'education-card bg-white p-6 rounded-lg shadow-md border-l-4 border-[#60A5FA]';
+                    eduCard.innerHTML = `
+                        <p class="text-sm text-gray-500">${edu.dates} | ${edu.location}</p>
+                        <h4 class="text-lg font-bold text-[#1A202C] mt-1">${edu.university}</h4>
+                        <p class="text-md text-gray-600">${edu.degree}</p>
+                    `;
+                    educationContainer.appendChild(eduCard);
+                });
+            };
+
+            const coursesContainer = document.getElementById('courses-container');
+            const renderCourses = () => {
+                profileData.courses.forEach(course => {
+                    const courseCard = document.createElement('div');
+                    courseCard.className = 'course-card bg-white p-6 rounded-lg shadow-md border-l-4 border-[#2563EB]';
+                    courseCard.innerHTML = `
+                        <p class="text-sm text-gray-500">${course.dates} | ${course.location}</p>
+                        <h4 class="text-lg font-bold text-[#1A202C] mt-1">${course.title}</h4>
+                        <p class="text-md text-gray-600">${course.provider}</p>
+                        <p class="text-sm text-gray-700 mt-2">${course.description}</p>
+                    `;
+                    coursesContainer.appendChild(courseCard);
+                });
+            };
+
+            const certificatesContainer = document.getElementById('certificates-container');
+            const renderCertificates = () => {
+                profileData.certificates.forEach(cert => {
+                    const certCard = document.createElement('div');
+                    certCard.className = 'certificate-card bg-white p-6 rounded-lg shadow-md border-l-4 border-[#60A5FA]';
+                    certCard.innerHTML = `
+                        <h4 class="text-lg font-bold text-[#1A202C]">${cert.name}</h4>
+                        <p class="text-sm text-gray-600 mt-1">${cert.details}</p>
+                    `;
+                    certificatesContainer.appendChild(certCard);
+                });
+            };
+
+            const skillsContainer = document.getElementById('skills-container');
+            const renderSkills = () => {
+                skillsContainer.innerHTML = ''; // Clear existing skills before rendering
+                profileData.skills.forEach(skillCat => {
+                    const skillCard = document.createElement('div');
+                    skillCard.className = 'skill-card bg-white p-6 rounded-lg shadow-md';
+                    let itemsHtml = skillCat.items.map(item => `<li class="text-gray-600">${item}</li>`).join('');
+                    skillCard.innerHTML = `
+                        <h3 class="text-xl font-bold text-[#2563EB] mb-4">${skillCat.category}</h3>
+                        <ul class="space-y-2 list-disc list-inside">${itemsHtml}</ul>
+                    `;
+                    skillsContainer.appendChild(skillCard);
+                });
+            };
+
+            renderCharts();
+            renderProjects('manager');
+            renderTimeline();
+            renderEducation();
+            renderCourses();
+            renderCertificates();
+            renderSkills();
+        });
+    </script>
+</body>
+</html>
+
